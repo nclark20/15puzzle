@@ -1,4 +1,3 @@
-    <!DOCTYPE html>
 <html>
   <head>
     <title>15 puzzle</title>
@@ -26,8 +25,14 @@
         <div>15</div>
     </div>
     <p id="shuffle">
-      <button id="shufflebutton">Shuffle</button>
+      <button id="shuffle_btn" onclick="shufflePuzzle()">Shuffle</button>
     </p>
-      <div id="counter">Moves: <span id="counter">0</span></div>
-  </body>
+      
+      <div>Moves: <span id="counter">0</span></div>
+      <br />
+      Time: <span id="timer">0</span>
+      <br />
+      <br />
+<button onclick="reset()" value="Reset">Reset</button>
+    </body>
 </html>

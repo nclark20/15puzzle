@@ -1,23 +1,40 @@
-var puzzle = [];
-var blank = [];
-
+var puzzle = []; //Array to store gameboard
+var blank = []; //Array to store empty pieces location
+var moves = 0;
+//Function to track time elapsed since last shuffle
+function timer() {
+	timer = setInterval(function() {
+		seconds++;
+		document.getElementById("timer").innerText = seconds;
+	}, 1000);
+}
+//Function to restart the timer
+function resetTimer() {
+	seconds = 0;
+	timer();
+}
+//Function to completely reload game
+function reset() {
+	location.reload();
+}
+//Load the elements of the puzzle into the puzzle array when the page is loaded
 window.onload = function() {
-	puzzle = $$("#gameboard div");
+	puzzle = $$("#gameboard div"); //Set puzzle[] to the div's inside of the gameboard
 	var row = 0;
 	var right = 0;
 	var top = 0;
 	for (var i = 0; i < puzzle.length; i++) {
-		puzzle[i].addClassName("puzzlepiece");
+		puzzle[i].addClassName("puzzlepiece"); //mark divs as puzzlepiece class
 		puzzle[i].style.float = "left";
 		puzzle[i].style.backgroundSize = "400px 400px";
 
-		blank[i] = [];
+		blank[i] = []; //Fill blank[] with empty []'s
 		blank[i][0] = right;
 		blank[i][1] = top;
 
-		puzzle[i].style.backgroundPosition = "-" + blank[i][0] + "px -" + blank[i][1] + "px";
+		puzzle[i].style.backgroundPosition = "-" + blank[i][0] + "px -" + blank[i][1] + "px"; //Properly displace background image
 		row++;
-		if (row === 4) {
+		if (row === 4) { //Track which row is being displayed
 			top += 100;
 			right = 0;
 			row = 0;
@@ -26,31 +43,28 @@ window.onload = function() {
 		}
 	}
 
-	var freemove = document.createElement("div");
-	$("gameboard").appendChild(freemove); //add a div that acts as the free move 
+	var freemove = document.createElement("div"); //Create piece #16 and add it to the gameboard 
+	$("gameboard").appendChild(freemove);
 	blankP(freemove);
-
-
-	puzzle = $$("#gameboard div"); // "reassign" the array puzzle with the new div added
-	$("shufflebutton").observe('click', shufflePuzzle);
+	puzzle = $$("#gameboard div"); // updated array with piece 16    
 	movepiece();
 };
 
-// the function blankP is used to create the blank background for the space that represents the available move
+//Function to change a moveable piece into a blank piece
 var blankP = function(bSpace) {
 	bSpace.removeClassName("movablepiece");
 	bSpace.addClassName("puzzlepiece");
 	bSpace.style.float = "left";
-	bSpace.style.backgroundImage = "none";
-	bSpace.style.border = "2px solid white";
+	bSpace.style.backgroundImage = "none"; //blank tile
+	bSpace.style.border = "2px solid white";   //White border to appear invisible
 };
 
-//the background_Position function is used to place the correct background piece to the number on the puzzlepiece.
+//Function to properly display the background image
 var background_Position = function(piece, item) {
 	piece.style.backgroundPosition = "-" + blank[item - 1][0] + "px -" + blank[item - 1][1] + "px";
 };
 
-// the regularP function is used to apply the background to a numbered piece. 
+//Function to apply the background image to the pieces
 var regularP = function(p) {
 	p.addClassName("puzzlepiece");
 	p.style.border = "2px solid black";
@@ -58,7 +72,7 @@ var regularP = function(p) {
 	p.style.backgroundSize = "400px 400px";
 };
 
-//the shuffluePuzzle function is used to shullfe each puzzle on the page.
+//Function to shuffle puzzle as many times as the user wants
 function shufflePuzzle() {
 	var numArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 	for (var i = puzzle.length; i > 0; i) {
@@ -76,39 +90,41 @@ function shufflePuzzle() {
 		}
 		numArray[j] = x;
 	}
-	mopiece();
+	moves = 0; //Reset moves after the board is shuffled
+	document.getElementById("counter").innerHTML = (moves); //Print the current moves
+	mopiece(); 
+	resetTimer(); //Restart the timer that was running for the previous shuffle
 }
 
-//this function places the class movablepiece
+//Function to add the movable piece class to a piece that is movable (for styling)
 var movePA = function(piece) {
 	puzzle[piece].addClassName("movablepiece");
 };
 
-
-//the movepiece function is used to actually move the piece that is clicked on into the space.
+//Function to relocate piece
 var movepiece = function() {
 	var move = this.innerHTML;
-	var yon = this.hasClassName('movablepiece');
+	var can_move = this.hasClassName('movablepiece');  //boolean to see if current element is actually movable
 	var blank = 0;
-	if (yon) {
+	if (can_move) {    //if yes, move piece
 		for (var i = 0; i < puzzle.length; i++) {
 			blank = puzzle[i].innerHTML;
 			if (puzzle[i].innerHTML == "") {
 				puzzle[i].innerHTML = move;
 				this.innerHTML = blank;
-
 				regularP(puzzle[i]);
 				blankP(this);
-
 				mopiece();
 				background_Position(puzzle[i], move);
 			}
 		}
 	}
+	moves++;   //increment moves
+	document.getElementById("counter").innerHTML = (moves);    //display moves
 };
 
 
-//the function mopiece is used to calculate which pieces are beside the space and are able to move, thus applying the 'movablepiece' class
+//Function to locate movable peices and label them
 var mopiece = function() {
 	for (var i = 0; i < puzzle.length; i++) {
 		puzzle[i].removeClassName("movablepiece");
@@ -176,3 +192,7 @@ var mopiece = function() {
 		puzzle[i].observe('click', movepiece);
 	}
 };
+
+function reset() {
+	location.reload();
+}
