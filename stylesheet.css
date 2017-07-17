@@ -28,7 +28,9 @@
     text-align: center;
     vertical-align: middle;
     width: 96px;
+    border: 2px solid black;
 }
+
 {
     background-image: url(background.jpg);
     background-repeat: no-repeat;
@@ -39,4 +41,9 @@
     text-align: center;
     vertical-align: middle;
     width: 96px;
+}
+.movablepiece:hover {
+    color: red;
+    font-weight: bold;
+    font-size: 36pt;
 }
