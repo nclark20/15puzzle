@@ -45,7 +45,7 @@ div.place_content {
 /*This is for the puzzle pieces*/
 
 .puzzlepiece {
-    background-image: url(background.jpg);
+    background-image: url(background2.jpg);
     background-repeat: no-repeat;
     border: 2px solid black;
     cursor: pointer;
@@ -131,14 +131,4 @@ footer.footer_01 {
 img.logo {
     width: 100px;
     border-radius: 10px;  
-}
-#selection{
-    text-align: center;
-    color: white;
-    text-shadow: 2px 2px 5px black;
-    font-family: futura;
-}
-.choice{
-    height: 400px;
-    width: 400px;
 }
