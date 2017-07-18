@@ -196,3 +196,8 @@ var mopiece = function() {
 function reset() {
 	location.reload();
 }
+
+$("#flip").flip({
+  axis: 'x',
+  trigger: 'hover'
+});
